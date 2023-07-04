@@ -32,9 +32,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include "CommonDefines.h"
 #include "UART.h"
-#include "OVERLAY.h"
 
 extern int tcflush (int __fd, int __queue_selector) __THROW;
 

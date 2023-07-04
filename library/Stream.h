@@ -25,7 +25,7 @@
 #define STREAM_H
 
 #include <stdint.h>
-#include <Print.h>
+#include "Print.h"
 
 class Stream : public Print
 {

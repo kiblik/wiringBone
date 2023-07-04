@@ -1,11 +1,11 @@
-# wiringBone
+#  wiringBone
 Wiring/Arduino style library for BeagleBone Black Platform
-#Description:
+#  Description:
 This library contains almost all the core wiring/arduino functions along with some advanced functions.
 This library is intended for quick and easy hardware control on the BeagleBone Black platform.
 All the functions have similar behaviour with the wiring/arduino environment.
 This library uses the power of 'beaglebone-universal-io' device tree overlays to configure the overlay at runtime. 
-#Features:
+# Features:
 1. Control 65 GPIO pins for digital input/output.
 2. Generate PWM from total 30 pins (6 pins from PWMSS and 24 pins from PRU_ICSS).
 3. Among 30 PWM pins, 24 pins have failsafe feature (Discussed in 'PWM' section below).
@@ -28,7 +28,7 @@ https://github.com/cdsteinkuehler/beaglebone-universal-io
 https://github.com/beagleboard/am335x_pru_package
 
 Currently the library supports compiling and running sources directly on the BeagleBone Black.
-#Initial Setup:
+# Initial Setup:
 First of all clone this repository in any directory on the local BeagleBone Black file system.
 
 To use any of the pins with wiringBone user has to modify the UserPinConfig.h file and change the pin mode of required pins. Each pin in Beaglebone Black has various modes of operation. That's why the user has to select wisely which pin to use in which mode by editing the UserPinConfig.h file. Valid modes for each pin is mentioned in the UserPinConfig.h file.
@@ -47,7 +47,7 @@ If the source files are present in some other directory then that directory path
 The source files can have extensions .c, .cpp, .ino and .pde.
 Multiple .c and .cpp files (including library style sources having one .c/.cpp file and one .h file) can be compiled but compiling multiple .ino or .pde is not recommended.
 
-#Usage:
+# Usage:
 The code should follow the setup() and loop() pattern similar to the wiring/arduino sketches.
 In the wiring/arduino environment some functions takes the pin number as a parameter.
 But this library will use pin name instead of pin numbers.
@@ -59,7 +59,7 @@ But here instead of pin number 2 the pin name has to be given like:
 
     pinMode(P8_10, OUTPUT); or pinMode(P9_14, OUTPUT);
 
-#1) GPIO
+# 1) GPIO
 Functions:
 
     void pinMode(Pin pin, uint8_t direction)
@@ -71,7 +71,7 @@ direction can be INPUT or OUTPUT. state can be HIGH or LOW.
 pinMode() function is only required to set the direction of pin when the pin is in gpio mode.
 To use any pin in gpio mode the UserPinConfig.h file has to be modified by changing pin mode to gpio.
 
-#2) PWM
+# 2) PWM
 Functions:
 
     void analogWrite(Pin pin, uint8_t value)
@@ -123,7 +123,7 @@ If setFailsafePRU is never called the PRU output pins will give low output (0 pu
 For controlling dc motors failsafe value of 0 pulse width is recommended.
 For controlling servo motors or a brushless esc failsafe value of 1000 micro second pulse width is recommended.
 
-#3) ADC
+# 3) ADC
 Functions:
 
     void analogReadResolution(uint8_t bits)
@@ -143,7 +143,7 @@ Advanced usage:
 
 readADC will return the full 12 bit ADC readings.
 
-#4) Time
+# 4) Time
 Functions:
 
     void delay(uint32_t duration)
@@ -151,7 +151,7 @@ Functions:
     uint32_t millis()
     uint32_t micros()
 
-#5) UART
+# 5) UART
 Functions:
 
     void begin(unsigned long)
@@ -185,7 +185,7 @@ Now the mySerial object can be used with the library like
 
     mySerial.begin(115200);
 
-#6) I2C
+# 6) I2C
 Functions:
 
     begin()
@@ -213,7 +213,7 @@ Example usage:
 
     Wire.begin();
 
-#7) SPI
+# 7) SPI
 (The SPI library is experimental and not tested)
 
 Functions:
@@ -251,7 +251,7 @@ For Example:
 The SPI-1 port is defined as SPI1.
 It can be used in the same manner as the SPI object.
 
-#8) EEPROM
+# 8) EEPROM
 Functions:
 
     uint8_t read( int idx )
@@ -264,7 +264,7 @@ Above funtions have similar behaviour with the arduino environment (Refer to doc
 The library will not use any hardware eeprom.
 Instead it will create a virtual file in the file system and perform read write operations to it as if it is communicating with an eeprom.
 
-#Compiling:
+# Compiling:
 A shell script with name build-source is present in the wiringBone directory which will help to compile and run the code.
 First make the script executable by typing 
 
@@ -276,7 +276,7 @@ For Example: type
     ./build-source make-and-run 
 to compile your code and run.
 
-#Stopping the program:
+# Stopping the program:
 Always stop the program with ctrl+c.
 The wiringBone library uses an auto clean-up feature.
 The basic idea is, if the program is using a pin then that pin should be restored back to its previous state after program termination.
@@ -284,9 +284,9 @@ When the program is stopped using ctrl+c it will reset all the GPIOs being used,
 
 If program is terminated with ctrl+z it will not perform the clean-up at exit.
 
-#Known Issues:
+# Known Issues:
 1. After boot up if a program is run for the first time it may give a "Bus error". Nothing to worry about it. Run the program again. It will work. Sometimes the universal-io overlay takes some time to load, which is the cause of this error. Work is in progress to fix this issue.
 2. Error messages may not show accurate information. Work is in progress to fix this issue.
 
-#About
+# About
 This library is developed by Abhraneel Bera. Copyright (c) 2015 All rights reserved.

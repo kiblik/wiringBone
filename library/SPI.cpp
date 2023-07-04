@@ -27,9 +27,8 @@
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
 
-#include "CommonDefines.h"
+// #include "CommonDefines.h"
 #include "SPI.h"
-#include "OVERLAY.h"
 
 uint8_t bitsPerWord = 8;
 uint8_t delayUsecs = 0;

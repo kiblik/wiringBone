@@ -22,7 +22,6 @@
 #define UART_H
 
 #include <stdint.h>
-#include "PINS.h"
 
 #include "Stream.h"
 
@@ -54,20 +53,6 @@ class HardwareSerial : public Stream
 size_t serialRead(int fd, void *buff, size_t nbytes);
 size_t serialWrite(int fd, void *buff, size_t nbytes);
 
-#if (P8_37_MODE == uart) || (P8_38_MODE == uart)
-extern HardwareSerial Serial3;  // UART5
-#endif
-
-#if (P9_11_MODE == uart) || (P9_13_MODE == uart)
-extern HardwareSerial Serial2;  // UART4
-#endif
-
-#if (P9_21_MODE == uart) || (P9_22_MODE == uart)
-extern HardwareSerial Serial1;  // UART2
-#endif
-
-#if (P9_24_MODE == uart) || (P9_26_MODE == uart)
 extern HardwareSerial Serial;  // UART1
-#endif
 
 #endif

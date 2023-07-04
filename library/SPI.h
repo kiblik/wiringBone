@@ -22,7 +22,6 @@
 #define SPI_H
 
 #include <stdint.h>
-#include "PINS.h"
 
 #define MSBFIRST 0
 #define LSBFIRST 1
@@ -93,10 +92,6 @@ class SPIClass
     int spiTransfer(unsigned char *data, int length);
 };
 
-#if (P9_17_MODE == spi) || (P9_18_MODE == spi) || (P9_21_MODE == spi) || (P9_22_MODE == spi)
 extern SPIClass SPI;
-#endif
-#if (P9_28_MODE == spi) || (P9_29_MODE == spi) || (P9_30_MODE == spi) || (P9_31_MODE == spi) || (P9_42_MODE == spi)
-extern SPIClass SPI1;
-#endif
+
 #endif

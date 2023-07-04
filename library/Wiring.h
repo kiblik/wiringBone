@@ -35,20 +35,11 @@
 #include <errno.h>
 #include <iostream>
 
-#include "CommonDefines.h"
-#include "OVERLAY.h"
-#include "CLOCK.h"
-#include "PINS.h"
-#include "GPIO.h"
-#include "PWM.h"
-#include "ADC.h"
-#include "UART.h"
+#include "wiringBone/library/CLOCK.h"
+#include "wiringBone/library/UART.h"
 
-#include "Binary.h"
-#include "WCharacter.h"
-#include "WMath.h"
-
-//#include "Wire.h"
-//#include "EEPROM.h"
+#define F(x) x
+//#include "wiringBone/library/Wire.h"
+//#include "wiringBone/library/EEPROM.h"
 
 #endif
