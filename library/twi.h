@@ -97,8 +97,12 @@ uint8_t twi_readFrom(uint8_t address, uint8_t* data, uint8_t length, uint8_t sen
   //if(sendStop == 1)  // To be implemented
   //{
     for(i=0; i < length; i++){
-      uint8_t value = i2c_smbus_read_byte(fd);
-      data[i] = value;
+      __s32 value = i2c_smbus_read_byte(fd);
+      if (value == -1){
+        perror("Failed to read byte");
+        return -1;
+      }
+      data[i] = (__s32) value;
     }
   //}
   //else
