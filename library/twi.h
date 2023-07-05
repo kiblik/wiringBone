@@ -100,7 +100,7 @@ uint8_t twi_readFrom(uint8_t address, uint8_t* data, uint8_t length, uint8_t sen
       __s32 value = i2c_smbus_read_byte(fd);
       if (value == -1){
         perror("Failed to read byte");
-        return -1;
+        return i;
       }
       data[i] = (__s32) value;
     }
