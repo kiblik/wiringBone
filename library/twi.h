@@ -21,94 +21,44 @@
 #ifndef TWI_H
 #define TWI_H
 
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
-#include <stdint.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
-#include <errno.h>
-#include "i2c-dev.h"
-
-#define TWI_BUFFER_LENGTH 32
+#include <I2c.h>
 
 static void (*twi_onSlaveTransmit)(void);
 static void (*twi_onSlaveReceive)(uint8_t*, int);
 
-int fd_i2c, regAddress;
+I2c i2cBus;
 
-void twi_init()
-{
-  if((fd_i2c = open("/dev/i2c-1", O_RDWR)) < 0)
-  perror("i2c open failed");
-}
-
-int twi_setAddress(int deviceAddress)
-{
-  if((ioctl(fd_i2c, I2C_SLAVE, deviceAddress)) < 0)
-  return -1;
-
-  return fd_i2c;
-}
+void twi_init(){}
 
 uint8_t twi_writeTo(uint8_t address, uint8_t* data, uint8_t length, uint8_t wait, uint8_t sendStop)
 {
-  int fd = twi_setAddress(address);
-  if(TWI_BUFFER_LENGTH < length)
-  return 1;
-  //if(sendStop == 1)  // To be implemented
-  //{
-    if(length == 0)
-    {
-      regAddress = 0;
-      return 0;
+  if(length == 0)
+  {
+    return 0;
+  }
+  else
+  {
+    i2cBus.initI2C_RW(1, address, 0);
+    ssize_t rtn = i2cBus.writeBytes(data, length);
+    if (rtn == -1){
+      perror("i2c: Failed to write bytes");
+      return 1;
     }
-    else if(length == 1)
-    {
-      regAddress = data[0];
-      if(i2c_smbus_write_byte(fd, data[0]) < 0)
-      {
-        perror("Failed to write byte");
-        return 1;
-      }
-    }
-    else
-    {
-      regAddress = 0;
-      if(i2c_smbus_write_i2c_block_data(fd, data[0], length-1, data+1) < 0)
-      {
-        perror("Failed to write bytes");
-        return 1;
-      }
-    }
-  //}
-  //else
-  //{ // To be implemented 
-  //}
-  return 0;
+    i2cBus.closeI2C();
+    return 0;
+  }
 }
 
 uint8_t twi_readFrom(uint8_t address, uint8_t* data, uint8_t length, uint8_t sendStop)
 {
-  int fd = twi_setAddress(address);
-  if(TWI_BUFFER_LENGTH < length)
-  return 0;
-  uint8_t i;
-  //if(sendStop == 1)  // To be implemented
-  //{
-    for(i=0; i < length; i++){
-      __s32 value = i2c_smbus_read_byte(fd);
-      if (value == -1){
-        perror("Failed to read byte");
-        return i;
-      }
-      data[i] = (__s32) value;
-    }
-  //}
-  //else
-  //{ // To be implemented 
-  //}
-  return i;
+  i2cBus.initI2C_RW(1, address, 0);
+  ssize_t rtn = i2cBus.readBytes(data, length);
+  if (rtn == -1){
+    perror("i2c: Failed to read bytes");
+    return 0;
+  }
+  i2cBus.closeI2C();
+  return (uint8_t) rtn;
 }
 
 uint8_t twi_transmit(const uint8_t* data, uint8_t length)
