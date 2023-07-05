@@ -93,18 +93,18 @@ uint8_t twi_readFrom(uint8_t address, uint8_t* data, uint8_t length, uint8_t sen
   int fd = twi_setAddress(address);
   if(TWI_BUFFER_LENGTH < length)
   return 0;
+  uint8_t i;
   //if(sendStop == 1)  // To be implemented
   //{
-      if(i2c_smbus_read_i2c_block_data(fd, regAddress, length, data) < 0)
-      {
-        perror("Failed to read bytes");
-        return 0;
-      }
+    for(i=0; i < length; i++){
+      uint8_t value = i2c_smbus_read_byte(fd);
+      data[i] = value;
+    }
   //}
   //else
   //{ // To be implemented 
   //}
-  return length;
+  return i;
 }
 
 uint8_t twi_transmit(const uint8_t* data, uint8_t length)
